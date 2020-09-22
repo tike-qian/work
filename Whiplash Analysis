@@ -1,13 +1,11 @@
 # 2020-9-22 实现多条曲线
 # 给定路径文件，显示所需的曲线
 import pandas as pd
-# import pyecharts.options as opts
 from pyecharts.charts import Line
 
 # 定义获取文件路径的函数，输入路径及sheet名字...TBD
 path = "C:/Users/就会觉得好/Desktop/PythonL/files/"
 d_names = ["BSN20Y0486-T2000418102", "BSN20Y0637-T2000603702"]
-# d_names = "BSN20Y0486-T2000418102"
 d_format = ".xls"
 sheetname = "DIAdem"
 new_index = ['Name', 'Time', 'CONT010000EV00', 'HEAD000000ACXA',
@@ -55,10 +53,5 @@ for name in d_names:
 
 # 设定需要画的曲线名
 
-
-# t_time = whiplash["Time"]
-
 # 对多根曲线进行画图
-
-
 line.render("basic_line.html")
