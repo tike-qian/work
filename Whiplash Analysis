@@ -1,0 +1,64 @@
+# 2020-9-22 实现多条曲线
+# 给定路径文件，显示所需的曲线
+import pandas as pd
+# import pyecharts.options as opts
+from pyecharts.charts import Line
+
+# 定义获取文件路径的函数，输入路径及sheet名字...TBD
+path = "C:/Users/就会觉得好/Desktop/PythonL/files/"
+d_names = ["BSN20Y0486-T2000418102", "BSN20Y0637-T2000603702"]
+# d_names = "BSN20Y0486-T2000418102"
+d_format = ".xls"
+sheetname = "DIAdem"
+new_index = ['Name', 'Time', 'CONT010000EV00', 'HEAD000000ACXA',
+             'HEAD000000ACYA', 'HEAD000000ACZA', 'HEAD000000ACRA',
+             'HEAD02DI00VEXC', 'NECKUP0000FOXB', 'NECKUP0000FOZB',
+             'NECKUP0000MOYB', 'NECKUPTO00MOYB', 'NECKUP0000FOXA',
+             'NECKUP0000FOZA', 'NECKLO0000MOYB', 'NECKLO0000FOXA',
+             'NECKLO0000FOZA', 'PELV000000ACXA', 'PELV000000ACYA',
+             'PELV000000ACZA', 'PELV000000ACRA', 'THSP01LE00ACXC',
+             'HEAD000000ACXC', 'HEAD01DILEACXC', 'HEAD01DILEVEXC',
+             'XNICLE000000XC', 'HEAD03DILEVEXC', 'THSP01LE00ACZC',
+             'THSP01LE00ACRC', 'LUSP010000ACXC', 'LUSP010000ACZC',
+             'CESP040000ACXC', 'CESP040000ACZC', 'THSP080000ACXC',
+             'THSP080000ACZC', 'THSP01RI00ACXC', 'THSP01RI00ACZC',
+             'THSP01RI00ACRC', 'THSP01AV00ACXC', 'HEAD01DIRIACXC',
+             'HEAD01DIRIVEXC', 'XNICRI000000XC', 'HEAD03DIRIVEXC',
+             'HEAD01DIAVACXC', 'HEAD01DIAVVEXC', 'XNICAV000000XC',
+             'XNICAV000000XD', 'HEAD03DIAVVEXC', 'SLED010000ACXD',
+             'SLED010000VEXC', 'Time Korridor', 'C-NCAP 20 Upper',
+             'C-NCAP 20 Lower', 'CoriVeloTime', 'CoriVelo', 'SLED020000ACXD',
+             'XVVT01000000XC', 'SLED020000VEXC', 'CoriVeloTime1', 'CoriVelo1',
+             'XVVT02000000XC', 'SLED010000ACXC']
+
+
+# 定义获取画图曲线名称的函数...TBD
+# 创建字典，将通用名称和数据曲线名称对应
+
+# 定义读取文件信息的函数，返回其中第1942行到第5541的数据
+def get_data(data_path, sheet_name):
+    datas = pd.ExcelFile(data_path)
+    #   getdata = pd.read_excel(datas, sheet_name)
+    return pd.DataFrame(pd.read_excel(datas, sheet_name).iloc[1920:4943])
+
+# 读取多个数据
+y_values = ['HEAD000000ACXA', 'HEAD000000ACYA', 'HEAD000000ACZA']
+line = Line()
+for name in d_names:
+    d_path = path + name + d_format
+    whiplash = get_data(d_path, sheetname)
+    whiplash.columns = new_index
+
+    line.add_xaxis(whiplash["Time"])
+    for y in y_values:
+        line.add_yaxis(name+ "_" + y, whiplash[y], label_opts=False, symbol_size=2)
+
+# 设定需要画的曲线名
+
+
+# t_time = whiplash["Time"]
+
+# 对多根曲线进行画图
+
+
+line.render("basic_line.html")
