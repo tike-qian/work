@@ -55,3 +55,45 @@ for name in d_names:
 
 # 对多根曲线进行画图
 line.render("basic_line.html")
+------------------------------------------------------------------------------------------------------------
+# 用matplotlib实现画图
+# 给定路径文件，显示所需的曲线
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+#定义获取文件路径的函数，输入路径及sheet名字...TBD
+path =  ["C:/Users/就会觉得好/Desktop/PythonL/files/BSN20Y0486-T2000418102.xls",
+             "C:/Users/就会觉得好/Desktop/PythonL/files/BSN20Y0637-T2000603702.xls"]
+sheetname = "DIAdem"
+
+#定义获取画图曲线名称的函数...TBD
+    #创建字典，将通用名称和数据曲线名称对应
+
+#定义读取文件信息的函数，返回其中第1942行到第5541的数据
+def get_data(data_path,sheet_name):
+    datas = pd.ExcelFile(data_path)
+    read_data = pd.read_excel(datas, sheetname)
+    return pd.DataFrame(read_data.iloc[1942:5541])
+
+#定义画图函数
+def plt_figure(data_path,data):
+    plt.figure(figsize=[10,8])
+    for i in np.arange(len(data_path)):
+        plt.scatter(Whiplash_data['Time'],np.array(data)[i,:,0],s = 4)
+    plt.legend(line_name,loc = 'upper left', fontsize = 10)
+    plt.title('Head Acceleration')
+    
+#读取模块，读取文件信息，并存储到Total_data列表中待用
+def read_data(data_path,sheet_name):
+    Total_data=[]
+    for datapath in data_path:
+        Whiplash_data =get_data(datapath,sheet_name)
+        line_name=Whiplash_data.columns[3:6]
+        Total_data.append(Whiplash_data.loc[ : ,line_name])
+    return Total_data
+
+#画图
+Total_data = read_data(path,sheetname)
+plt_figure(path,Total_data)
+
